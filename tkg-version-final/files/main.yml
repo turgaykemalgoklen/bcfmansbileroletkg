@@ -1,0 +1,27 @@
+---
+- name: Ubuntu Playbook
+  hosts: localhost
+
+  tasks:
+  - name: get the all package facts
+    package_facts:
+       manager: "auto"
+
+  - name: show Docker's version
+    debug: var=ansible_facts.packages['docker-ce']
+  - name: show Jenkins's version
+    debug: var=ansible_facts.packages['jenkins']
+
+  - name: show Helm's version
+    command: helm version --client
+    register: helmversion
+
+  - name: Print Helm's version
+    debug: var=helmversion.stdout
+
+  - name: show Kubectl's version
+    command: kubectl version --client=true
+    register: kversion
+
+  - name: Print Kubectl's version
+    debug: var=kversion.stdout_lines
